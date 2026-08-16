@@ -14,6 +14,7 @@
   - Chromium/YouTube игнорируются;
   - скрытый запуск на `special:yandex-music`;
   - cold-start fallback через CDP только на `127.0.0.1:9223`.
+  - отдельный регулятор громкости PipeWire stream `yandexmusic`, 0–150% + mute.
 
 ## Не хранится
 
@@ -42,7 +43,7 @@ cd ~/omarchy-dotfiles
 3. При необходимости предлагает установить AUR-пакеты через `yay`.
 4. Копирует настройки, тему и plugin.
 5. Проверяет Lua, JSON, shell scripts и plugin manifest.
-6. Применяет `Tokyo Night`, включает plugin перед `omarchy.audio`, перезагружает Hyprland и Omarchy Shell.
+6. Применяет `Tokyo Night`, включает plugin слева, перезагружает Hyprland и Omarchy Shell.
 
 Музыка автоматически не начинает играть после входа. Yandex Music запускается скрыто; Play нажимается вручную на панели.
 

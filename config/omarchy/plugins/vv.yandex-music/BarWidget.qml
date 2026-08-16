@@ -15,6 +15,9 @@ BarWidget {
   readonly property string playIcon: activePlayer && activePlayer.isPlaying ? "󰏤" : "󰐊"
   readonly property string title: activePlayer ? (activePlayer.trackTitle || "Яндекс Музыка") : "Яндекс Музыка"
   readonly property string artist: activePlayer ? (activePlayer.trackArtist || "") : ""
+  readonly property bool hasVolumeControl: mediaService ? mediaService.hasVolumeControl : false
+  readonly property real streamVolume: mediaService ? mediaService.streamVolume : 0
+  readonly property bool streamMuted: mediaService ? mediaService.streamMuted : false
 
   property bool popupOpen: false
 
@@ -220,6 +223,62 @@ BarWidget {
           enabled: root.activePlayer && root.activePlayer.canGoNext
           opacity: enabled ? 1.0 : 0.4
           onClicked: if (root.mediaService) root.mediaService.runAction("next", false, root.mediaService.playerKey(root.activePlayer))
+        }
+      }
+
+      PanelSeparator {
+        visible: root.hasVolumeControl
+        foreground: root.bar.foreground
+      }
+
+      Row {
+        width: parent.width
+        spacing: Style.space(8)
+        visible: root.hasVolumeControl
+
+        Text {
+          id: volumeIcon
+          text: root.streamMuted ? "󰝟" : (root.streamVolume < 0.5 ? "󰕿" : "󰕾")
+          color: root.bar.foreground
+          font.family: root.bar.fontFamily
+          font.pixelSize: Style.font.title
+          width: Style.space(22)
+          horizontalAlignment: Text.AlignHCenter
+          anchors.verticalCenter: parent.verticalCenter
+          opacity: root.streamMuted ? 0.5 : 1.0
+
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: if (root.mediaService) root.mediaService.toggleStreamMute()
+          }
+        }
+
+        PanelSlider {
+          bar: root.bar
+          width: parent.width - volumeIcon.width - volumePct.width - Style.space(16)
+          minimum: 0
+          maximum: 1.5
+          step: 0.05
+          value: root.streamVolume
+          opacity: root.streamMuted ? 0.5 : 1.0
+          onMoved: function(v) {
+            if (root.mediaService) root.mediaService.setStreamVolume(v)
+          }
+          onRightClicked: if (root.mediaService) root.mediaService.toggleStreamMute()
+        }
+
+        Text {
+          id: volumePct
+          text: Math.round(root.streamVolume * 100) + "%"
+          color: Qt.darker(root.bar.foreground, 1.5)
+          font.family: root.bar.fontFamily
+          font.pixelSize: Style.font.caption
+          font.bold: true
+          width: Style.space(38)
+          horizontalAlignment: Text.AlignRight
+          anchors.verticalCenter: parent.verticalCenter
+          opacity: root.streamMuted ? 0.5 : 1.0
         }
       }
 

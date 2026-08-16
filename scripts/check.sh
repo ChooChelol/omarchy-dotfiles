@@ -14,6 +14,7 @@ bash -n scripts/update-snapshot.sh
 bash -n config/omarchy/plugins/vv.yandex-music/scripts/start-hidden.sh
 bash -n config/omarchy/plugins/vv.yandex-music/scripts/play-pause.sh
 node --check config/omarchy/plugins/vv.yandex-music/scripts/play-pause.mjs
+node --test config/omarchy/plugins/vv.yandex-music/tests/volume-model.test.cjs
 
 if command -v shellcheck >/dev/null; then
   shellcheck scripts/restore.sh scripts/update-snapshot.sh \

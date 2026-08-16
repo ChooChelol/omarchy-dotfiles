@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "vv.yandex-music",
   "name": "Яндекс Музыка",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "vv",
   "description": "MPRIS controller for the dedicated Yandex Music desktop app",
   "kinds": [
@@ -16,9 +16,9 @@
   },
   "barWidget": {
     "displayName": "Яндекс Музыка",
-    "description": "Трек, обложка и управление Яндекс Музыкой",
+    "description": "Трек, обложка, громкость и управление Яндекс Музыкой",
     "category": "Media",
     "allowMultiple": false,
-    "defaultSection": "center"
+    "defaultSection": "left"
   }
 }

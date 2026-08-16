@@ -19,13 +19,14 @@ copy_file "$SOURCE_HOME/.config/omarchy/shell.json" "config/omarchy/shell.json"
 plugin_src="$SOURCE_HOME/.config/omarchy/plugins/vv.yandex-music"
 plugin_dst="$ROOT/config/omarchy/plugins/vv.yandex-music"
 rm -rf -- "${plugin_dst:?}"
-mkdir -p -- "$plugin_dst/scripts"
+mkdir -p -- "$plugin_dst/scripts" "$plugin_dst/tests"
 for name in manifest.json Service.qml BarWidget.qml MediaModel.js README.md; do
   copy_file "$plugin_src/$name" "config/omarchy/plugins/vv.yandex-music/$name"
 done
 for name in start-hidden.sh play-pause.sh play-pause.mjs; do
   copy_file "$plugin_src/scripts/$name" "config/omarchy/plugins/vv.yandex-music/scripts/$name"
 done
+copy_file "$plugin_src/tests/volume-model.test.cjs" "config/omarchy/plugins/vv.yandex-music/tests/volume-model.test.cjs"
 chmod 0755 "$plugin_dst/scripts/start-hidden.sh" "$plugin_dst/scripts/play-pause.sh"
 chmod 0644 "$plugin_dst/scripts/play-pause.mjs"
 

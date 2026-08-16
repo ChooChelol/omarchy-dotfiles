@@ -44,6 +44,28 @@ function isPlaybackStream(node) {
     || mediaClass.indexOf("Output") !== -1
 }
 
+function isYandexPlaybackStream(node) {
+  if (!node || !node.audio || !isPlaybackStream(node)) return false
+  var p = nodeProps(node)
+  var binary = String(p["application.process.binary"] || "").toLowerCase()
+  binary = binary.split(/[\\/]/).pop()
+  return binary === "yandexmusic" || binary === "yandex-music"
+}
+
+function findYandexPlaybackStream(playbackStreams) {
+  var streams = Array.isArray(playbackStreams) ? playbackStreams : []
+  for (var i = 0; i < streams.length; i++) {
+    if (isYandexPlaybackStream(streams[i])) return streams[i]
+  }
+  return null
+}
+
+function clampVolume(value) {
+  var number = Number(value)
+  if (!isFinite(number)) return 0
+  return Math.max(0, Math.min(1.5, number))
+}
+
 function streamLabelKey(label) {
   var key = String(label || "").toLowerCase()
   key = key.replace(/^pipewire alsa \[/, "")
@@ -129,6 +151,9 @@ if (typeof module !== "undefined") {
     canCycleSource: canCycleSource,
     nodeProps: nodeProps,
     isPlaybackStream: isPlaybackStream,
+    isYandexPlaybackStream: isYandexPlaybackStream,
+    findYandexPlaybackStream: findYandexPlaybackStream,
+    clampVolume: clampVolume,
     streamLabelKey: streamLabelKey,
     rawStreamLabel: rawStreamLabel,
     playerAppLabel: playerAppLabel,

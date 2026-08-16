@@ -33,6 +33,10 @@ Item {
     }
     return list
   }
+  readonly property var yandexStream: MediaModel.findYandexPlaybackStream(playbackStreams)
+  readonly property bool hasVolumeControl: !!(yandexStream && yandexStream.audio)
+  readonly property real streamVolume: hasVolumeControl ? yandexStream.audio.volume : 0
+  readonly property bool streamMuted: hasVolumeControl ? yandexStream.audio.muted : false
   readonly property var sourcePlayers: orderedSourcePlayers()
   readonly property var sourceCyclePlayers: orderedCycleSourcePlayers()
   readonly property var activePlayer: selectActivePlayer()
@@ -82,6 +86,22 @@ Item {
 
   function isPlaybackStream(node) {
     return MediaModel.isPlaybackStream(node)
+  }
+
+  function setStreamVolume(value) {
+    if (!hasVolumeControl) return false
+    yandexStream.audio.volume = MediaModel.clampVolume(value)
+    return true
+  }
+
+  function adjustStreamVolume(delta) {
+    return setStreamVolume(streamVolume + Number(delta || 0))
+  }
+
+  function toggleStreamMute() {
+    if (!hasVolumeControl) return false
+    yandexStream.audio.muted = !yandexStream.audio.muted
+    return true
   }
 
   function streamLabelKey(label) {
@@ -487,7 +507,10 @@ Item {
       artUrl: p && p.trackArtUrl ? p.trackArtUrl : "",
       canGoNext: p ? !!p.canGoNext : false,
       canGoPrevious: p ? !!p.canGoPrevious : false,
-      canTogglePlaying: p ? !!p.canTogglePlaying : false
+      canTogglePlaying: p ? !!p.canTogglePlaying : false,
+      hasVolumeControl: root.hasVolumeControl,
+      volume: root.streamVolume,
+      muted: root.streamMuted
     })
   }
 
@@ -516,6 +539,22 @@ Item {
 
     function pause(): string {
       return root.runAction("pause", true) ? "ok" : "unhandled"
+    }
+
+    function volumeSet(value: real): string {
+      return root.setStreamVolume(value) ? "ok" : "unhandled"
+    }
+
+    function volumeUp(): string {
+      return root.adjustStreamVolume(0.05) ? "ok" : "unhandled"
+    }
+
+    function volumeDown(): string {
+      return root.adjustStreamVolume(-0.05) ? "ok" : "unhandled"
+    }
+
+    function volumeMute(): string {
+      return root.toggleStreamMute() ? "ok" : "unhandled"
     }
 
     function sourceNext(): string {

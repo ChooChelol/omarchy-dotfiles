@@ -6,6 +6,7 @@
 
 - Трек и исполнитель в панели.
 - Popup с обложкой, альбомом и кнопками управления.
+- Регулятор громкости 0–150% для отдельного PipeWire stream `yandexmusic`; клик по иконке включает mute.
 - ЛКМ: play/pause.
 - СКМ: следующий трек.
 - ПКМ: открыть/закрыть popup.
@@ -19,9 +20,13 @@
 
 ```bash
 omarchy plugin validate ~/.config/omarchy/plugins/vv.yandex-music
-omarchy plugin enable vv.yandex-music --before omarchy.audio
+omarchy plugin enable vv.yandex-music --section left
 omarchy plugin disable vv.yandex-music
 omarchy shell yandex-music status
+omarchy shell yandex-music volumeSet 0.75
+omarchy shell yandex-music volumeUp
+omarchy shell yandex-music volumeDown
+omarchy shell yandex-music volumeMute
 omarchy restart shell
 ```
 
