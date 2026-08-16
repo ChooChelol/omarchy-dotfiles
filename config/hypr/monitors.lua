@@ -2,12 +2,12 @@
 -- List current monitors and supported resolutions with: hyprctl monitors all
 
 -- 2K main monitor: Xiaomi Mi Monitor on DP-3, right side.
--- Secondary HDMI display: 1920x1080@50, left side.
+-- Secondary monitor: HDMI-A-1, disabled by default.
 local omarchy_gdk_scale = 1
 local omarchy_monitor_scale = 1
 
 hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
-hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@50", position = "0x0", scale = 1 })
+hl.monitor({ output = "HDMI-A-1", disabled = true })
 hl.monitor({ output = "DP-3", mode = "2560x1440@180", position = "1920x0", scale = omarchy_monitor_scale })
 
 -- Good compromise for 27" or 32" 4K monitors (but fractional!)
