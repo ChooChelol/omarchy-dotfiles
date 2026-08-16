@@ -18,7 +18,7 @@ copy_file "$SOURCE_HOME/.config/omarchy/shell.json" "config/omarchy/shell.json"
 
 plugin_src="$SOURCE_HOME/.config/omarchy/plugins/vv.yandex-music"
 plugin_dst="$ROOT/config/omarchy/plugins/vv.yandex-music"
-rm -rf -- "$plugin_dst"
+rm -rf -- "${plugin_dst:?}"
 mkdir -p -- "$plugin_dst/scripts"
 for name in manifest.json Service.qml BarWidget.qml MediaModel.js README.md; do
   copy_file "$plugin_src/$name" "config/omarchy/plugins/vv.yandex-music/$name"
@@ -32,7 +32,7 @@ chmod 0644 "$plugin_dst/scripts/play-pause.mjs"
 theme=comfyui-temp-uavpr-00022
 theme_src="$SOURCE_HOME/.config/omarchy/themes/$theme"
 theme_dst="$ROOT/config/omarchy/themes/$theme"
-rm -rf -- "$theme_dst"
+rm -rf -- "${theme_dst:?}"
 mkdir -p -- "$theme_dst/backgrounds"
 copy_file "$theme_src/colors.toml" "config/omarchy/themes/$theme/colors.toml"
 copy_file "$theme_src/icons.theme" "config/omarchy/themes/$theme/icons.theme"

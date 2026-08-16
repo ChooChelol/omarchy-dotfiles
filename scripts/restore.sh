@@ -108,7 +108,7 @@ install -m 0644 -- "$ROOT/config/omarchy/shell.json" "$TARGET_HOME/.config/omarc
 for rel in \
   .config/omarchy/themes/comfyui-temp-uavpr-00022 \
   .config/omarchy/plugins/vv.yandex-music; do
-  rm -rf -- "$TARGET_HOME/$rel"
+  rm -rf -- "${TARGET_HOME:?}/$rel"
   mkdir -p -- "$(dirname -- "$TARGET_HOME/$rel")"
   cp -a -- "$ROOT/config/${rel#.config/}" "$TARGET_HOME/$rel"
 done
