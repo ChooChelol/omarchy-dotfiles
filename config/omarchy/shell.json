@@ -28,6 +28,9 @@
         },
         {
           "id": "omarchy.workspaces"
+        },
+        {
+          "id": "vv.yandex-music"
         }
       ],
       "right": [
@@ -45,9 +48,6 @@
         },
         {
           "id": "omarchy.network"
-        },
-        {
-          "id": "vv.yandex-music"
         },
         {
           "id": "omarchy.audio"
