@@ -1,0 +1,19 @@
+# Editors / OS
+*~
+*.swp
+.DS_Store
+
+# Secrets and local state
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+private/
+
+# Nested repositories, caches, generated backups
+**/.git/
+**/.cache/
+backups/

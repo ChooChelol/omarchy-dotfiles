@@ -1,0 +1,2 @@
+# AUR packages needed by optional integrations.
+yandex-music

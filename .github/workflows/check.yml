@@ -1,0 +1,28 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install validation tools
+        run: sudo apt-get update && sudo apt-get install -y jq lua5.4
+      - name: Validate public snapshot
+        run: ./scripts/check.sh
+      - name: Smoke-test restore in empty HOME
+        run: |
+          test_home=$(mktemp -d)
+          ./scripts/restore.sh \
+            --target-home "$test_home" \
+            --no-packages \
+            --no-apply
+          test -f "$test_home/.config/hypr/hyprland.lua"
+          test -f "$test_home/.config/omarchy/shell.json"
+          test -f "$test_home/.config/omarchy/plugins/vv.yandex-music/manifest.json"
